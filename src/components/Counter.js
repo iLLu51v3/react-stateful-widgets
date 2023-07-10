@@ -17,10 +17,14 @@ The other things can simply be _derived_ from the count itself.
 
 STEP 0:
   Start by studying the component below, and importing the state hook.
+  // If we are using state, we need to use the state hook. // "use a slice of state and use it to update things"//
 
 STEP 1:
   Using the state hook, create a 'count', 'setCount' pair.
   The 'count' state should be initialized to the number zero.
+
+  // If we are going import useState, then we are going to use a tuple to have count and setCount = useState and initialize the value at [0]
+  // Tuple: An array state with 2 values
 
 STEP 2:
   The 'style' object has the 'color' property hard-coded to "royalblue".
@@ -46,32 +50,48 @@ STEP 6:
   This click handler needs to use 'setCount' to set the 'count' to be zero again.
 */
 
-import React from 'react'; /* STEP 0 */
+import React, { useState } from 'react'; /* STEP 0 */ 
+
 
 export default function Counter() {
   /* STEP 1 */
+const [count, setCount] = useState(0);
 
   const increment = () => {
     /* STEP 4 */
+    // Never set state Directly, so do not write count++. React won't update the UI
+    setCount(count + 1); // what a set_____ function does is creates a new version of 'count'. It adds 1 to the count. And then rerenders (re returns in JSX) notifying/applying the change to the value of count.
   };
   const decrement = () => {
     /* STEP 5 */
+    setCount(count - 1);
   };
   const reset = () => {
     /* STEP 6 */
+    setCount(0);
   };
 
   const style = {
     fontSize: '1.5em',
     marginBottom: '0.3em',
-    color: 'royalblue', /* STEP 2 */
+    color: count % 2 === 0 ? 'royalblue' : "crimson" /* STEP 2 */
   };
+  /**
+   * The color line above is shorthgand for:
+   * 
+   * if (count % 2 === 0) {
+   *  return 'royalblue'
+   * } else {
+   *  return 'crimson'
+   * }
+   * 
+   */
 
   return (
     <div className='widget-counter container'>
       <h2>Counter</h2>
       <div id='count' style={style}>
-        Number 0 is even {/* STEP 3 */}
+        Number {count} is {count % 2 === 0 ? 'even':'odd'} {/* STEP 3 */}
       </div>
       <div>
         <button id='increment' onClick={increment}>Increment</button>
